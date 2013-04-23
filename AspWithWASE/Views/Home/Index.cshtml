@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Welcome to WASE";
+}
+@section scripts
+{
+    <script src="~/scripts/require.js"> </script>
+    @Scripts.Render("~/bundles/app")
+}
+<div id="body">
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>Welcome to Windows Azure Storage Extensions!</h1>
+            </hgroup>
+            <p>Windows Azure Storage Extensions is a .NET library aimed for <mark>managing and querying</mark> entities from Windows Azure Storage Tables.</p>
+            <p>
+                To learn more about WASE visit the
+                <a href="https://github.com/dtretyakov/WindowsAzure#windows-azure-storage-extensions">our project page</a>.
+                Latest nuget package can be found at the <a href="https://nuget.org/packages/WindowsAzure.StorageExtensions/">WASE nuget package page</a>.
+            </p>
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+        <hgroup class="title">
+            <h3>Example of Issues Collector</h3>
+            <p>Use the following SPA for issues management. Pay attention to the <mark>IssuesController's</mark> GET method which filters response by leveraging <a href="http://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api">Web API OData</a>.</p>
+            <p>Some IssuesController's methods were made Task-based. By default all issues stored in the <mark>Issue</mark> table in your Azure Table Storage.</p>
+        </hgroup>
+
+        <div class="content-wrapper">
+            <div class="float-left">
+                <h3>Add a new issue!</h3>
+                <form action="#" data-bind="submit: addIssue">
+                    <fieldset>
+                        <legend></legend>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label for="category">Category:</label>
+                                        <select name="category" data-bind="options: categories, value: newIssue.category"></select>
+                                    </td>
+                                    <td>
+                                        <label for="email">You e-mail:</label>
+                                        <input type="email" name="email" data-bind="value: newIssue.email" placeholder="john.doe@email.com" required />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <label for="description">Description:</label>
+                                        <textarea name="description" data-bind="value: newIssue.description" rows="5" required></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <input type="submit" value="Add issue" />
+                    </fieldset>
+                </form>
+            </div>
+            <div class="float-right issues">
+                <h3>Look for issues</h3>
+                <div class="clear-fix" style="margin-top: 12px;">
+                    <label for="category">Category:</label>
+                    <select name="category" data-bind="options: categories, value: issues.category"></select>
+                </div>
+                <div data-bind="visible: !loading()">
+                    <ul data-bind="foreach: issues.list">
+                        <li>
+                            <img src="" alt="" class="float-left" data-bind="gravatar: email" />
+                            <a class="float-right" href="#" data-bind="click: deleteIssue">
+                                <img  src="~/images/delete.png" alt="delete" title="delete" />
+                            </a>
+                            <div class="header clear-fix" >
+                                <b><span data-bind="text: category"></span>&nbsp;#<span data-bind="text: id"></span></b><br />
+                                <span data-bind="dateString: created"></span>
+                                <span data-bind="text: email"></span> wrote:
+                            </div>
+                            <p class="clear-fix" data-bind="text: description"></p>
+                        </li>
+                    </ul>
+                    <p data-bind="visible: !issues.list().length">Congratulation! You have no issues.</p>
+                </div>
+                <p data-bind="visible: loading" class="loader"><img src="~/images/ajax-loader.gif" alt="Loading..." /></p>
+            </div>
+        </div>
+    </section>
+</div>
